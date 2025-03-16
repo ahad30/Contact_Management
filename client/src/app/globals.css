@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Onest", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+
+  /* Scrollber */
+.wrapper::-webkit-scrollbar {
+  width: 4px;
+  height: 5px;
+  background-color: #aaa;
+
+}
+
+
+.wrapper::-webkit-scrollbar-thumb {
+  background: #03A9F4;
+}
+
+  /* width */
+  .scrollbar-0::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .scrollbar-0::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  .scrollbar-0::-webkit-scrollbar-thumb {
+    background: #a7abe8;
+  }
+
+  /* Handle on hover */
+  .scrollbar-0::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+/* Scrollber */
+
+
+
+/* Loader */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  --c:no-repeat radial-gradient(farthest-side,#514b82 92%,#0000);
+  background: 
+    var(--c) 50%  0, 
+    var(--c) 50%  100%, 
+    var(--c) 100% 50%, 
+    var(--c) 0    50%;
+  background-size: 10px 10px;
+  animation: l18 1s infinite;
+  position: relative;
+}
+.loader::before {    
+  content:"";
+  position: absolute;
+  inset:0;
+  margin: 3px;
+  background: repeating-conic-gradient(#0000 0 35deg,#514b82 0 90deg);
+  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 3px),#000 0);
+  border-radius: 50%;
+}
+@keyframes l18 { 
+  100%{transform: rotate(.5turn)}
+}
+
+/* Loader */
+
+
+
+/* Material Tailwind Dashboard */
+.no-active {
+  background-color: transparent !important;
+  outline: none !important; 
+  box-shadow: none !important; 
+}
+
+.no-active:focus {
+  outline: none !important; 
+}
+
+/* Material Tailwind Dashboard */
+
+
+
+
+
+
+  /* Ant modal */
+  .custom-modal .ant-modal-content {
+    background-color: transparent;
+    box-shadow: none;
+    width: 350px;
+    border-radius: 0%;
+  }
+  
+  .custom-modal .ant-modal-close {
+    right: 40px !important;
+    top: 25px !important; 
+  }
+  
+   /* Ant modal */
+
+
+/* Ant Design Dashboard */
+.custom-menu .ant-menu-item-selected {
+  background-color: #6c5ce7 !important;
+  color: #ffffff !important;         
+}
+
+.custom-menu .ant-menu-item-selected:hover {
+  background-color: #6c5ce7 !important; 
+}
+
+/* Ant Design Dashboard */
+
+/* Ant Design Table */
+ .ant-table-cell {
+  text-align: center;
+}
+
+
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  text-align: center !important;
+}
+
+ /* Ant Design Table */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-logo {
+  animation: pulse 2s infinite;
+}
+
+.animate-line {
+  fill: currentColor;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-angle {
+  fill: currentColor;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(-100%);
+  }
+  /* 20% {
+    transform: translateX(0);
+  } */
+  80% {
+    transform: translateX(0);
+  }
+  /* 100% {
+    transform: translateX(100%);
+  } */
+}
+
+.animate-slideOut {
+  animation: slideOut 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Update existing animations */
+.animate-logo {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-line {
+  fill: currentColor;
+  opacity: 0;
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-angle {
+  fill: currentColor;
+  opacity: 0;
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Button animation styles */
+.button-wrapper {
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.button-text-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 24px;
+  overflow: hidden;
+}
+
+.button-text {
+  display: block;
+  position: relative;
+  transform-origin: 50% 0%;
+  transition: transform 0.3s ease;
+  translate: none;
+  rotate: none;
+  scale: none;
+}
+
+.button-text:nth-child(2) {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 3;
+}
+
+.button-wrapper:hover .button-text:first-child {
+  transform: translateY(-100%);
+}
+
+.button-wrapper:hover .button-text:nth-child(2) {
+  transform: translateY(-100%);
+}
+
+
+/* Navigation Modal Animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.nav-link-enter {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.nav-link-exit {
+  animation: slideInRight 0.3s ease reverse forwards;
+}
+
+/* Ensure modal is above other content */
+.modal-backdrop {
+  z-index: 1000;
+}
+
+/* Add these styles for the blur effect */
+@supports (backdrop-filter: blur(8px)) {
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(8px)) {
+  .backdrop-blur-md {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Prevent body scroll when modal is open */
+.modal-open {
+  overflow: hidden;
+}
+
+/* Add these styles if not already present */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+
+
+/* Optional: Add these styles for better touch interaction */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-grab {
+    cursor: default;
+  }
+}
+
+
+
+/* Service title hover animation */
+.service-title-hover {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-title-hover:hover {
+  transform: translateX(50%);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
