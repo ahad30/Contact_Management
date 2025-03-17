@@ -2,32 +2,6 @@ export const tags = [
  
   // Admin
 
-  {
-    name: 'projects', 
-    tag: 'Projects', 
-  },
-  {
-    name: 'testimonials', 
-    tag: 'Testimonials', 
-  },
-  {
-    name: 'testimonials', 
-    tag: 'Testimonials', 
-  },
-
-  {
-    name: 'heroBanner', 
-    tag: 'Hero Banner', 
-  },
-  {
-    name: 'partnerGoals', 
-    tag: 'PartnerGaols', 
-  },
-  {
-    name: 'services', 
-    tag: 'Services', 
-  },
-
 
 
 ];

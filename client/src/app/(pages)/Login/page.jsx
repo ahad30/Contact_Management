@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import ZInputTwo from "@/components/Form/ZInputTwo";
 import ZFormTwo from "@/components/Form/ZFormTwo";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ const Login = () => {
     try {
       const response = await userLogin(data);
       console.log(response);
-      if (response?.data?.user) {
+      if (response?.data?.user && response?.data?.token) {
 
         router.push("/Dashboard/AdminHome");
       }
@@ -66,9 +66,9 @@ const Login = () => {
                     required={1}
                     name="password"
                     type="password"
-                    label={"Passscode"}
+                    label={"Password"}
                     defaultKey={""}
-                    placeholder={"Enter your Passscode"}
+                    placeholder={"Enter your Password"}
                   />
                 </div>
 

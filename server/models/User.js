@@ -5,9 +5,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  photo: {
-    type: String,
-  },
   email: {
     type: String,
     required: true,
@@ -19,6 +16,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
+
 }, { timestamps: true });
 
 const UserModel = mongoose.model('Users', userSchema);

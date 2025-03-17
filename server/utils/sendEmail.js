@@ -6,7 +6,14 @@ const path = require('path');
 const sendContactEmail = async (contactData) => {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument();
-    const filePath = path.join(__dirname, `../tmp/contact_${Date.now()}.pdf`);
+    const tmpDir = path.join(__dirname, '../tmp');
+    const filePath = path.join(tmpDir, `contact_${Date.now()}.pdf`);
+
+    // Ensure the tmp directory exists
+    if (!fs.existsSync(tmpDir)) {
+      fs.mkdirSync(tmpDir, { recursive: true });
+    }
+
     const stream = fs.createWriteStream(filePath);
 
     doc.pipe(stream);
@@ -19,18 +26,21 @@ const sendContactEmail = async (contactData) => {
 
     stream.on('finish', async () => {
       const transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
+        service: 'gmail',
         port: 587,
-       secure: false,
-       auth: {
-        user: 'lydia.yundt63@ethereal.email',
-        pass: 'eWmfRZsRNyVTCm3QRv'
-    },
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
       });
 
       const mailOptions = {
-        from: 'mohiminulislamahad@gmail.com',
-        to: 'md@nusaiba.com.bd',
+        from: '"Mohiminul Islam Ahad" <mohimin.bd.ahad@gmail.com>',
+        to: 'mohiminulislamahad@gmail.com',
         subject: 'New Contact Submission',
         text: 'Attached is the submitted contact information.',
         attachments: [{ filename: 'contact.pdf', path: filePath }],
@@ -38,11 +48,15 @@ const sendContactEmail = async (contactData) => {
 
       try {
         await transporter.sendMail(mailOptions);
-        fs.unlinkSync(filePath);
+        fs.unlinkSync(filePath); // Delete the file after sending the email
         resolve('Email sent successfully');
       } catch (error) {
         reject(error);
       }
+    });
+
+    stream.on('error', (error) => {
+      reject(error);
     });
   });
 };
