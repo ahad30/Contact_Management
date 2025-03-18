@@ -14,9 +14,9 @@ const Register = () => {
     try {
       const response = await userRegister(data);
       console.log(response);
-      if (response?.data) {
-        router.push("/Login");
-      }
+      // if (response?.data) {
+      //   router.push("/Login");
+      // }
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -77,7 +77,7 @@ const Register = () => {
                   data={userRegisterData}
                 >
                  
-                  <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <div className="py-8 text-base  text-gray-700 sm:text-lg ">
                   <div className="relative">
                       {/* Input for password */}
                       <ZInputTwo

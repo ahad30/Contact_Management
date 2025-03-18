@@ -4,24 +4,35 @@ const path = require('path');
 const ExcelJS = require('exceljs');
 
 
-const generatePDF = async (contact) => {
+const generatePDF = async (contacts) => {
   return new Promise((resolve, reject) => {
-     const doc = new PDFDocument();
-     const tmpDir = path.join(__dirname, '../tmp')
-     const filePath = path.join(tmpDir, `contact_${Date.now()}.pdf`);
-        if (!fs.existsSync(tmpDir)) {
-          fs.mkdirSync(tmpDir, { recursive: true });
-        }
-    doc.pipe(fs.createWriteStream(filePath));
-    doc.fontSize(16).text('Contact Information', { align: 'center' }).moveDown();
-    doc.fontSize(12).text(`Name: ${contact.name}`);
-    doc.fontSize(12).text(`Email: ${contact.email}`);
-    doc.fontSize(12).text(`Phone: ${contact.phone}`);
-    doc.fontSize(12).text(`Message: ${contact.message}`);
+    const doc = new PDFDocument();
+    const tmpDir = path.join(__dirname, '../tmp');
+    const filePath = path.join(tmpDir, `contacts_${Date.now()}.pdf`);
+
+    if (!fs.existsSync(tmpDir)) {
+      fs.mkdirSync(tmpDir, { recursive: true });
+    }
+
+    const stream = fs.createWriteStream(filePath);
+    doc.pipe(stream);
+
+    // Add a title
+    doc.fontSize(16).text('Contact List', { align: 'center' }).moveDown();
+
+    // Loop through all contacts and add them to the PDF
+    contacts.forEach((contact, index) => {
+      doc.fontSize(12).text(`Contact ${index + 1}:`, { underline: true }).moveDown();
+      doc.fontSize(12).text(`Name: ${contact.name}`);
+      doc.fontSize(12).text(`Email: ${contact.email}`);
+      doc.fontSize(12).text(`Message: ${contact.message}`);
+      doc.moveDown(); // Add space between contacts
+    });
 
     doc.end();
-    doc.on('finish', () => resolve(filePath));
-    doc.on('error', reject);
+
+    stream.on('finish', () => resolve(filePath));
+    stream.on('error', reject);
   });
 };
 
@@ -33,7 +44,6 @@ const generateExcel = async (contacts) => {
   worksheet.columns = [
     { header: 'Name', key: 'name', width: 20 },
     { header: 'Email', key: 'email', width: 30 },
-    { header: 'Phone', key: 'phone', width: 20 },
     { header: 'Message', key: 'message', width: 50 },
   ];
 

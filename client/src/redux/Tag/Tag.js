@@ -1,9 +1,9 @@
 export const tags = [
- 
   // Admin
-
-
-
+  {
+    name: "contact",
+    tag: "Contact",
+  },
 ];
 
 export const getTagsByModuleName = (moduleName) => {

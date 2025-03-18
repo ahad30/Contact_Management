@@ -19,7 +19,7 @@ const port = process.env.PORT || 5000;
 const corsOptions = {
   origin: [
     "http://localhost:3000",
-    ""
+    "https://contacts-opal-iota.vercel.app"
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -78,7 +78,6 @@ async (accessToken, refreshToken, profile, done) => {
       user = new UserModel({
         name: profile.displayName,
         email: profile.emails[0].value,
-        photo: profile.photos[0].value,
       });
       await user.save();
     }
@@ -110,14 +109,15 @@ app.get('/auth/google/callback',
 
     // Set token in HTTP-only cookie
     res.cookie('authToken', token, {
-      httpOnly: true,  // Prevents JavaScript access for security
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      sameSite: 'Strict', // Prevent CSRF attacks
-      maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
+      httpOnly: true,  
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax', 
+      maxAge: 24 * 60 * 60 * 1000, 
+      path: '/',
     });
 
     // Redirect to Admin Dashboard (no token in URL)
-    res.redirect('http://localhost:3000/Dashboard/AdminHome');
+    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/AdminHome`);
   }
 );
 
@@ -126,7 +126,18 @@ app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { session: false }),
   (req, res) => {
     const token = jwt.sign({ id: req.user._id, email: req.user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
-    res.redirect(`http://localhost:3000?token=${token}`);
+    // Set token in HTTP-only cookie
+    res.cookie('authToken', token, {
+      httpOnly: true,  
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax', 
+      maxAge: 24 * 60 * 60 * 1000, 
+      path: '/',
+    });
+
+
+    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/AdminHome`);
+
   });
 
 
@@ -140,7 +151,7 @@ app.get('/', (req, res) => {
 
 
 app.use("/auth", require("./routes/auth"));
-app.use('/contacts', require('./routes/contact'));
+app.use('/contact', require('./routes/contact'));
 
 
 

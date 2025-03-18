@@ -100,12 +100,12 @@
 
 /* Ant Design Dashboard */
 .custom-menu .ant-menu-item-selected {
-  background-color: #6c5ce7 !important;
+  background-color: #dad5fc !important;
   color: #ffffff !important;         
 }
 
 .custom-menu .ant-menu-item-selected:hover {
-  background-color: #6c5ce7 !important; 
+  background-color: #dad5fc !important; 
 }
 
 /* Ant Design Dashboard */
