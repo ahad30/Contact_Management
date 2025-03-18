@@ -2,33 +2,40 @@
 import ZInputTwo from "@/components/Form/ZInputTwo";
 import ZFormTwo from "@/components/Form/ZFormTwo";
 import { useRouter } from "next/navigation";
-import { useLoginMutation } from "@/redux/Feature/auth/authApi";
+import { useLoginMutation, useRegisterMutation } from "@/redux/Feature/auth/authApi";
 import ZEmail from "@/components/Form/ZEmail";
-import { useEffect } from "react";
 import Image from "next/image";
 
-const Login = () => {
-  const [userLogin, { isLoading: lIsloading, error, isError: lIsError, isSuccess: lIsSuccess, data: userLoginData }] = useLoginMutation();
-  const router = useRouter();
+const Register = () => {
+ const router = useRouter();
+  const [userRegister, { isLoading: lIsloading, error, isError: lIsError, isSuccess: lIsSuccess, data: userRegisterData }] = useRegisterMutation();
 
   const handleSubmit = async (data) => {
     try {
-      const response = await userLogin(data);
+      const response = await userRegister(data);
       console.log(response);
-      if (response?.data?.user && response?.data?.token) {
-        localStorage.setItem("authToken", response.data.token);
-        router.push("/Dashboard/AdminHome");
+      if (response?.data) {
+        router.push("/Login");
       }
     } catch (error) {
       console.error("Login failed:", error);
     }
   };
 
+    // Google Login
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:5000/auth/google";
+      };
+    
+      // Facebook Login
+      const handleFacebookLogin = () => {
+        window.location.href = "http://localhost:5000/auth/facebook";
+      };
 
 
-  // Navigate to Sign Up Page
-  const handleSignUp = () => {
-    router.push("/Register");
+  // Navigate to Sign in Page
+  const handleSignIn = () => {
+    router.push("/Login");
   };
 
   return (
@@ -67,10 +74,21 @@ const Login = () => {
                   isError={lIsError}
                   isSuccess={lIsSuccess}
                   submit={handleSubmit}
-                  data={userLoginData}
+                  data={userRegisterData}
                 >
                  
                   <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <div className="relative">
+                      {/* Input for password */}
+                      <ZInputTwo
+                        required={1}
+                        name="name"
+                        type="text"
+                        label={"Full Name"}
+                        defaultKey={"py-3"}
+                        placeholder={"Enter your Name"}
+                      />
+                    </div>
                     <div className="relative mb-8">
                       {/* Input for email */}
                       <ZEmail
@@ -93,12 +111,23 @@ const Login = () => {
                         placeholder={"Enter your Password"}
                       />
                     </div>
+                    <div className="relative">
+                      {/* Input for Confirm password */}
+                      <ZInputTwo
+                        required={1}
+                        name="confirmPassword"
+                        type="password"
+                        label={"Confirm password"}
+                        defaultKey={"py-3"}
+                        placeholder={"Enter your Confirm Password"}
+                      />
+                    </div>
                     {/* Full-width Login Button */}
                     <button
                       type="submit"
                       className="w-full bg-[#345485] text-white px-4 py-3 rounded-md hover:bg-blue-600"
                     >
-                      Login
+                      Create Account
                     </button>
                   </div>
                 </ZFormTwo>
@@ -107,17 +136,34 @@ const Login = () => {
                 OR
                </div>
 
+               
+              {/* OAuth Buttons */}
+              <div className="flex mt-6 flex-row gap-3">
+                <button
+                  onClick={handleGoogleLogin}
+                  className="w-full flex justify-center items-center bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600"
+                >
+                  Sign up with Google
+                </button>
+                <button
+                  onClick={handleFacebookLogin}
+                  className="w-full flex justify-center items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >
+                  Sign up with Facebook
+                </button>
+              </div>
+
                 {/* Sign Up Button */}
                 <div className="mt-6 flex justify-center gap-1">
-                  <p className="text-gray-600">Don't have an account?</p>
+                  <p className="text-gray-600">Already have an account?</p>
                   <button
-                    onClick={handleSignUp}
+                    onClick={handleSignIn}
                     className="font-bold text-[#345485]"
                   >
-                    Sign Up
+                    Sign in
                   </button>
                 </div>
-              </div>
+              </div>    
             </div>
           </div>
         </div>
@@ -127,4 +173,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

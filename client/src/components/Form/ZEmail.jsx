@@ -6,7 +6,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const ZEmail = ({ name, label, value }) => {
+const ZEmail = ({ name, label, value , defaultKey}) => {
   const { control, setValue } = useFormContext();
 
   useEffect(() => {
@@ -32,7 +32,10 @@ const ZEmail = ({ name, label, value }) => {
           validateStatus={error ? "error" : ""}
           help={error?.message}
         >
-          <Input {...field} placeholder="Enter your email" />
+          <Input
+            className={defaultKey ? `${defaultKey}` : ``}
+          
+           {...field} placeholder="Enter your email" />
         </Form.Item>
       )}
     />
