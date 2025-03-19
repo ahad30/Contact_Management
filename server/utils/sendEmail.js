@@ -40,7 +40,7 @@ const sendContactEmail = async (contactData) => {
 
       const mailOptions = {
         from: '"Mohiminul Islam Ahad" <mohimin.bd.ahad@gmail.com>',
-        to: 'mohiminulislamahad@gmail.com',
+        to: 'md@nusaiba.com.bd',
         subject: 'New Contact Submission',
         text: 'Attached is the submitted contact information.',
         attachments: [{ filename: 'contact.pdf', path: filePath }],

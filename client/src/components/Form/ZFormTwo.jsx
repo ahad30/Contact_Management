@@ -29,7 +29,7 @@ const ZFormTwo = ({
   buttonName,
 }) => {
 
-  const { isAddModalOpen, isEditModalOpen , isCustomerModalOpen,isProductModalOpen } = useAppSelector(
+  const { isAddModalOpen, isEditModalOpen } = useAppSelector(
     (state) => state.modal
   );
   // const formConfig: defaultAndResolver = {};
@@ -58,7 +58,7 @@ const ZFormTwo = ({
 
     if (formType === "create") {
          methods.reset();
-      if (!isAddModalOpen || !isEditModalOpen || !isCustomerModalOpen || !isProductModalOpen) {
+      if (!isAddModalOpen || !isEditModalOpen ) {
         methods.reset();
       }
     }
@@ -68,7 +68,7 @@ const ZFormTwo = ({
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAddModalOpen, isEditModalOpen,isCustomerModalOpen, isProductModalOpen, methods]);
+  }, [isAddModalOpen, isEditModalOpen,methods]);
 
   
   useEffect(() => {

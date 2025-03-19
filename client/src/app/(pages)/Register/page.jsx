@@ -2,7 +2,7 @@
 import ZInputTwo from "@/components/Form/ZInputTwo";
 import ZFormTwo from "@/components/Form/ZFormTwo";
 import { useRouter } from "next/navigation";
-import { useLoginMutation, useRegisterMutation } from "@/redux/Feature/auth/authApi";
+import {  useRegisterMutation } from "@/redux/Feature/auth/authApi";
 import ZEmail from "@/components/Form/ZEmail";
 import Image from "next/image";
 
@@ -14,9 +14,9 @@ const Register = () => {
     try {
       const response = await userRegister(data);
       console.log(response);
-      // if (response?.data) {
-      //   router.push("/Login");
-      // }
+      if (response?.data) {
+        router.push("/Login");
+      }
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -24,12 +24,12 @@ const Register = () => {
 
     // Google Login
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:5000/auth/google";
+        window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
       };
     
       // Facebook Login
       const handleFacebookLogin = () => {
-        window.location.href = "http://localhost:5000/auth/facebook";
+        window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/facebook`;
       };
 
 

@@ -53,6 +53,31 @@ router.get('/pdf', async (req, res) => {
   }
 });
 
+router.get('/pdf/:id', async (req, res) => {
+  try {
+    const contactId = req.params.id;
+    const contact = await Contact.findById(contactId); // Fetch the specific contact
+
+    if (!contact) {
+      return res.status(404).json({ success: false, message: 'Contact not found' });
+    }
+
+    const pdfPath = await generatePDF([contact]); // Generate PDF for the single contact
+
+    // Send the file as a downloadable response
+    res.download(pdfPath, `contact_${contactId}.pdf`, (err) => {
+      if (err) console.error('Error sending PDF:', err);
+      // Delete the file after sending
+      fs.unlink(pdfPath, (err) => {
+        if (err) console.error('Error deleting PDF:', err);
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
+});
+
 router.get('/excel', async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -60,6 +85,31 @@ router.get('/excel', async (req, res) => {
 
     // Send the file as a downloadable response
     res.download(excelPath, 'contacts.xlsx', (err) => {
+      if (err) console.error('Error sending Excel:', err);
+      // Delete the file after sending
+      fs.unlink(excelPath, (err) => {
+        if (err) console.error('Error deleting Excel:', err);
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
+});
+
+router.get('/excel/:id', async (req, res) => {
+  try {
+    const contactId = req.params.id;
+    const contact = await Contact.findById(contactId); // Fetch the specific contact
+
+    if (!contact) {
+      return res.status(404).json({ success: false, message: 'Contact not found' });
+    }
+
+    const excelPath = await generateExcel([contact]); // Generate Excel for the single contact
+
+    // Send the file as a downloadable response
+    res.download(excelPath, `contact_${contactId}.xlsx`, (err) => {
       if (err) console.error('Error sending Excel:', err);
       // Delete the file after sending
       fs.unlink(excelPath, (err) => {

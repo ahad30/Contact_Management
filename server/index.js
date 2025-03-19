@@ -19,7 +19,10 @@ const port = process.env.PORT || 5000;
 const corsOptions = {
   origin: [
     "http://localhost:3000",
-    "https://contacts-opal-iota.vercel.app"
+    "http://localhost:5000",
+    "https://contacts-opal-iota.vercel.app",
+    "https://contactmanagement-zeta.vercel.app"
+
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -45,7 +48,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback",
+  callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
 },
 async (accessToken, refreshToken, profile, done) => {
   try {
@@ -68,7 +71,7 @@ async (accessToken, refreshToken, profile, done) => {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_CLIENT_ID,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-  callbackURL: "/auth/facebook/callback",
+  callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
   profileFields: ['id', 'displayName', 'photos', 'email']
 },
 async (accessToken, refreshToken, profile, done) => {
