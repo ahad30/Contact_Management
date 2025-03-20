@@ -71,7 +71,7 @@ async (accessToken, refreshToken, profile, done) => {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_CLIENT_ID,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-  callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
+  callbackURL: `${process.env.BACKEND_URL}/auth/facebook/callback`,
   profileFields: ['id', 'displayName', 'photos', 'email']
 },
 async (accessToken, refreshToken, profile, done) => {
@@ -112,11 +112,12 @@ app.get('/auth/google/callback',
 
     // Set token in HTTP-only cookie
     res.cookie('authToken', token, {
-      httpOnly: true,  
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax', 
-      maxAge: 24 * 60 * 60 * 1000, 
-      path: '/',
+      httpOnly: true, 
+      // secure: process.env.NODE_ENV === 'production', 
+      secure: false, 
+      // sameSite: 'none', 
+      // maxAge: 24 * 60 * 60 * 1000,
+      // path: '/',
     });
 
     // Redirect to Admin Dashboard (no token in URL)
@@ -131,11 +132,12 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', { session: 
     const token = jwt.sign({ id: req.user._id, email: req.user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
     // Set token in HTTP-only cookie
     res.cookie('authToken', token, {
-      httpOnly: true,  
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax', 
-      maxAge: 24 * 60 * 60 * 1000, 
-      path: '/',
+      httpOnly: true, 
+      // secure: process.env.NODE_ENV === 'production', 
+      secure: false, 
+      // sameSite: 'none', 
+      // maxAge: 24 * 60 * 60 * 1000,
+      // path: '/',
     });
 
 

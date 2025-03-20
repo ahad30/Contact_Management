@@ -4,7 +4,7 @@ import ZInputTwo from "@/components/Form/ZInputTwo";
 import ZFormTwo from "@/components/Form/ZFormTwo";
 import ZEmail from "@/components/Form/ZEmail";
 import Image from "next/image";
-import { useAddContactMutation } from "@/redux/Feature/Admin/contact/contact";
+import { useAddContactMutation } from "@/redux/Feature/Admin/contact/contactApi";
 import ZInputTextArea from "@/components/Form/ZInputTextArea";
 
 const Home = () => {

@@ -10,7 +10,7 @@ import DeleteModal from "@/components/Modal/DeleteModal";
 import { useAppDispatch, useAppSelector } from "@/redux/Hook/Hook";
 import { setIsDeleteModalOpen, setIsEditModalOpen, setIsViewModalOpen } from "@/redux/Modal/ModalSlice";
 import DashboardTable from "@/components/Table/DashboardTable";
-import { useDeleteContactMutation, useDownloadContactsExcelQuery, useDownloadContactsPDFQuery, useGetContactsQuery } from "@/redux/Feature/Admin/contact/contact";
+import { useDeleteContactMutation, useDownloadContactsExcelQuery, useDownloadContactsPDFQuery, useGetContactsQuery } from "@/redux/Feature/Admin/contact/contactApi";
 import { AiFillEye } from "react-icons/ai";
 import ViewModal from "@/components/Modal/ViewModal";
 import ViewContact from "./ViewContact";

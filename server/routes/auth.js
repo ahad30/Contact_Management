@@ -48,29 +48,46 @@ router.post("/register", async (req, res) => {
   });
 
 // Login route
+// Login route
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate input
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required." });
     }
 
+    // Check if the user exists
     const user = await UserModel.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "User does not exist." });
     }
 
+    // Validate password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       return res.status(401).json({ message: "Invalid credentials." });
     }
 
+    // Generate JWT token
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
 
+    // Set token in HTTP-only cookie
+    res.cookie('authToken', token, {
+      httpOnly: true, 
+      // secure: process.env.NODE_ENV === 'production', 
+      secure: false, 
+      // sameSite: 'none', 
+      // maxAge: 24 * 60 * 60 * 1000,
+      // path: '/',
+    });
+
+    // Respond with success message and user data (excluding sensitive info)
     res.status(200).json({
       message: "Login successful.",
       token,
@@ -86,9 +103,9 @@ router.post("/login", async (req, res) => {
 router.post('/logout', (req, res) => {
   res.clearCookie('authToken', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'Lax',
-    path: '/',
+    // sameSite: 'none',
+    secure: false,
+    // path: '/',
   });
   res.status(200).json({ message: 'Logout successful' });
 });

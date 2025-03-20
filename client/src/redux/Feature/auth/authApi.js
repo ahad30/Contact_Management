@@ -10,6 +10,7 @@ const authApi = baseApi.injectEndpoints({
         },
         method: "POST",
         body: data,
+        credentials: "include",
       }),
     }),
 
@@ -28,7 +29,7 @@ const authApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/auth/logout",
         method: "POST",
-        credentials: "include", // Important to include cookies in the request
+        credentials: "include",
       }),
     }),
   }),
@@ -37,5 +38,5 @@ const authApi = baseApi.injectEndpoints({
 export const { 
   useLoginMutation,
   useRegisterMutation,
-  useLogoutMutation, // Export the new logout mutation
+  useLogoutMutation, 
 } = authApi;
