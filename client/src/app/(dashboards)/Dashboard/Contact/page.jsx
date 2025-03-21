@@ -1,28 +1,31 @@
 "use client";
 import React, { useState } from "react";
 import { Space, Tooltip, Button } from "antd";
-import { CiEdit } from "react-icons/ci";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiFillEye } from "react-icons/ai";
 import { FaFilePdf, FaFileExcel } from "react-icons/fa";
-import AddModal from "@/components/Modal/AddModal";
-import EditModal from "@/components/Modal/EditModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import { useAppDispatch, useAppSelector } from "@/redux/Hook/Hook";
-import { setIsDeleteModalOpen, setIsEditModalOpen, setIsViewModalOpen } from "@/redux/Modal/ModalSlice";
+import { setIsDeleteModalOpen, setIsViewModalOpen } from "@/redux/Modal/ModalSlice";
 import DashboardTable from "@/components/Table/DashboardTable";
-import { useDeleteContactMutation, useDownloadContactsExcelQuery, useDownloadContactsPDFQuery, useGetContactsQuery } from "@/redux/Feature/Admin/contact/contactApi";
-import { AiFillEye } from "react-icons/ai";
+import {
+  useDeleteContactMutation,
+  useDownloadContactsExcelQuery,
+  useDownloadContactsPDFQuery,
+  useGetContactsQuery,
+} from "@/redux/Feature/Admin/contact/contactApi";
 import ViewModal from "@/components/Modal/ViewModal";
 import ViewContact from "./ViewContact";
 
 const Contact = () => {
   const dispatch = useAppDispatch();
   const { data, isLoading } = useGetContactsQuery();
-  const { isAddModalOpen, isViewModalOpen, isDeleteModalOpen } = useAppSelector((state) => state.modal);
-  const [selectedContact, setSelectedContact] = useState({});
-  const [deleteContact, { isLoading: dIsLoading, isError, isSuccess, data: dData, error: dError }] = useDeleteContactMutation();
-  const { data: pdfUrl } = useDownloadContactsPDFQuery();
-  const { data: excelUrl } = useDownloadContactsExcelQuery();
+  const { isViewModalOpen, isDeleteModalOpen } = useAppSelector((state) => state.modal);
+  const [selectedContact, setSelectedContact] = useState(null);
+
+  const [deleteContact, { isLoading: dIsLoading, isError, isSuccess, data: dData, error: dError }] =
+    useDeleteContactMutation();
+  // const { data: pdfUrl } = useDownloadContactsPDFQuery();
+  // const { data: excelUrl } = useDownloadContactsExcelQuery();
 
   const contactData = data?.contacts?.map((contact, index) => ({
     key: index + 1,
@@ -38,11 +41,15 @@ const Contact = () => {
   };
 
   const handleDownloadUserPDF = (userId) => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/pdf/${userId}`;
+    if (userId) {
+      window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/pdf/${userId}`, "_blank");
+    }
   };
 
   const handleDownloadUserExcel = (userId) => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/excel/${userId}`;
+    if (userId) {
+      window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/excel/${userId}`, "_blank");
+    }
   };
 
   const handleDelete = (contact) => {
@@ -51,33 +58,18 @@ const Contact = () => {
   };
 
   const handleDeleteContact = () => {
-    deleteContact(selectedContact?.id);
+    if (selectedContact?.id) {
+      deleteContact(selectedContact.id);
+    }
   };
 
   const handleDownloadPDF = () => {
-    if (pdfUrl) {
-      const link = document.createElement("a");
-      link.href = pdfUrl;
-      link.download = "contacts_report.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(pdfUrl);
-    } else {
-      console.error("PDF URL is undefined or invalid");
-    }
+    window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/pdf`, "_blank");
   };
+  
 
   const handleDownloadExcel = () => {
-    if (excelUrl) {
-      const link = document.createElement("a");
-      link.href = excelUrl;
-      link.download = "contacts_report.xlsx";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(excelUrl);
-    }
+    window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/excel`, "_blank");
   };
 
   const columns = [
@@ -106,28 +98,18 @@ const Contact = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => handleViewOrder(record)}>
-            <Tooltip title="View" placement="top">
-              <AiFillEye className="text-green-500" size={20} />
-            </Tooltip>
-          </a>
-
-          <a onClick={() => handleDownloadUserPDF(record.id)}>
-            <Tooltip title="Download PDF" placement="top">
-              <FaFilePdf className="text-red-500" size={20} />
-            </Tooltip>
-          </a>
-          <a onClick={() => handleDownloadUserExcel(record.id)}>
-            <Tooltip title="Download PDF" placement="top">
-              <FaFileExcel className="text-green-500" size={20} />
-            </Tooltip>
-          </a>
-
-          <a onClick={() => handleDelete(record)}>
-            <Tooltip title="Delete" placement="top">
-              <AiOutlineDelete className="text-red-500" size={20} />
-            </Tooltip>
-          </a>
+          <Tooltip title="View">
+            <AiFillEye className="text-green-500 cursor-pointer" size={20} onClick={() => handleViewOrder(record)} />
+          </Tooltip>
+          <Tooltip title="Download PDF">
+            <FaFilePdf className="text-red-500 cursor-pointer" size={20} onClick={() => handleDownloadUserPDF(record.id)} />
+          </Tooltip>
+          <Tooltip title="Download Excel">
+            <FaFileExcel className="text-green-500 cursor-pointer" size={20} onClick={() => handleDownloadUserExcel(record.id)} />
+          </Tooltip>
+          <Tooltip title="Delete">
+            <AiOutlineDelete className="text-red-500 cursor-pointer" size={20} onClick={() => handleDelete(record)} />
+          </Tooltip>
         </Space>
       ),
     },
@@ -140,7 +122,7 @@ const Contact = () => {
           Export PDF (All)
         </Button>
         <Button onClick={handleDownloadExcel} icon={<FaFileExcel />} className="ml-2">
-          Export Excel(All)
+          Export Excel (All)
         </Button>
       </div>
 

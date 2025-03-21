@@ -6,35 +6,17 @@ const path = require('path');
 const sendContactEmail = async (contactData) => {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument();
-    const tmpDir = path.join(__dirname, '../tmp');
-    const filePath = path.join(tmpDir, `contact_${Date.now()}.pdf`);
+    const buffers = [];
 
-    // Ensure the tmp directory exists
-    if (!fs.existsSync(tmpDir)) {
-      fs.mkdirSync(tmpDir, { recursive: true });
-    }
+    doc.on('data', buffers.push.bind(buffers));
+    doc.on('end', async () => {
+      const pdfBuffer = Buffer.concat(buffers);
 
-    const stream = fs.createWriteStream(filePath);
-
-    doc.pipe(stream);
-    doc.fontSize(16).text(`Contact Information`, { align: 'center' });
-    doc.moveDown();
-    doc.fontSize(12).text(`Name: ${contactData.name}`);
-    doc.text(`Email: ${contactData.email}`);
-    doc.text(`Message: ${contactData.message}`);
-    doc.end();
-
-    stream.on('finish', async () => {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
-        port: 587,
-        secure: false,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
-        },
-        tls: {
-          rejectUnauthorized: false,
         },
       });
 
@@ -43,22 +25,25 @@ const sendContactEmail = async (contactData) => {
         to: 'md@nusaiba.com.bd',
         subject: 'New Contact Submission',
         text: 'Attached is the submitted contact information.',
-        attachments: [{ filename: 'contact.pdf', path: filePath }],
+        attachments: [{ filename: 'contact.pdf', content: pdfBuffer }],
       };
 
       try {
         await transporter.sendMail(mailOptions);
-        fs.unlinkSync(filePath); // Delete the file after sending the email
         resolve('Email sent successfully');
       } catch (error) {
         reject(error);
       }
     });
 
-    stream.on('error', (error) => {
-      reject(error);
-    });
+    doc.fontSize(16).text(`Contact Information`, { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(12).text(`Name: ${contactData.name}`);
+    doc.text(`Email: ${contactData.email}`);
+    doc.text(`Message: ${contactData.message}`);
+    doc.end();
   });
 };
+
 
 module.exports = { sendContactEmail };

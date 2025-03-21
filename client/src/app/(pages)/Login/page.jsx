@@ -23,11 +23,11 @@ const Login = () => {
   const handleSubmit = async (data) => {
     try {
       const response = await userLogin(data);
-      console.log(response)
+      // console.log(response)
       if (response?.data?.user && response?.data?.token) {
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("userInfo", JSON.stringify(response.data.user));
-        router.push("/Dashboard/AdminHome");
+        router.push("/Dashboard/Contact");
       }
     } catch (error) {
       console.error("Login failed:", error);

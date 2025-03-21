@@ -114,14 +114,14 @@ app.get('/auth/google/callback',
     res.cookie('authToken', token, {
       httpOnly: true, 
       // secure: process.env.NODE_ENV === 'production', 
-      secure: false, 
-      // sameSite: 'none', 
-      // maxAge: 24 * 60 * 60 * 1000,
-      // path: '/',
+      secure: true, 
+      sameSite: 'none', 
+      maxAge: 24 * 60 * 60 * 1000,
+      path: '/',
     });
 
     // Redirect to Admin Dashboard (no token in URL)
-    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/AdminHome`);
+    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/Contact`);
   }
 );
 
@@ -134,14 +134,14 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', { session: 
     res.cookie('authToken', token, {
       httpOnly: true, 
       // secure: process.env.NODE_ENV === 'production', 
-      secure: false, 
-      // sameSite: 'none', 
-      // maxAge: 24 * 60 * 60 * 1000,
-      // path: '/',
+      secure: true, 
+      sameSite: 'none', 
+      maxAge: 24 * 60 * 60 * 1000,
+      path: '/',
     });
 
 
-    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/AdminHome`);
+    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/Contact`);
 
   });
 

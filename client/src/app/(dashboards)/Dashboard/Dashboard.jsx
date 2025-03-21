@@ -16,7 +16,6 @@ const Dashboard = ({ view, toggle }) => {
   // Set active menu item based on current pathname
   useEffect(() => {
     const pathToIdMapping = {
-      "/Dashboard/AdminHome": "dashboard",
       "/Dashboard/Contact": "contacts",
 
     };
@@ -24,11 +23,7 @@ const Dashboard = ({ view, toggle }) => {
   }, [pathName]);
 
   const menuItems = [
-    {
-      id: "dashboard",
-      path: "/Dashboard/AdminHome",
-      label: "Dashboard",
-    },
+  
     {
       id: "contacts",
       path: "/Dashboard/Contact",

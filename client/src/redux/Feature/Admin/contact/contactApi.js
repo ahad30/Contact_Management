@@ -36,35 +36,35 @@ const contactApi = baseApi.injectEndpoints({
       invalidatesTags: getTagsByModuleName('contact'),
     }),
 
-    downloadContactsPDF: builder.query({
-      query: () => ({
-        url: "/contact/pdf",
-        method: "GET",
-        responseHandler: async (response) => {
-          if (!response.ok) {
-            throw new Error("Failed to download PDF");
-          }
-          const blob = await response.blob();
-          return URL.createObjectURL(blob);
-        },
-      }),
-      providesTags: getTagsByModuleName('contact'),
-    }),
+    // downloadContactsPDF: builder.query({
+    //   query: () => ({
+    //     url: "/contact/pdf",
+    //     method: "GET",
+    //     responseHandler: async (response) => {
+    //       if (!response.ok) {
+    //         throw new Error("Failed to download PDF");
+    //       }
+    //       const blob = await response.blob();
+    //       return URL.createObjectURL(blob);
+    //     },
+    //   }),
+    //   providesTags: getTagsByModuleName('contact'),
+    // }),
 
-    downloadContactsExcel: builder.query({
-      query: () => ({
-        url: "/contact/excel",
-        method: "GET",
-        responseHandler: async (response) => {
-          if (!response.ok) {
-            throw new Error("Failed to download Excel");
-          }
-          const blob = await response.blob();
-          return URL.createObjectURL(blob);
-        },
-      }),
-      providesTags: getTagsByModuleName('contact'),
-    }),
+    // downloadContactsExcel: builder.query({
+    //   query: () => ({
+    //     url: "/contact/excel",
+    //     method: "GET",
+    //     responseHandler: async (response) => {
+    //       if (!response.ok) {
+    //         throw new Error("Failed to download Excel");
+    //       }
+    //       const blob = await response.blob();
+    //       return URL.createObjectURL(blob);
+    //     },
+    //   }),
+    //   providesTags: getTagsByModuleName('contact'),
+    // }),
   }),
 });
 

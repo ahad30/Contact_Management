@@ -76,15 +76,15 @@ router.post("/login", async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
-
+    console.log(token)
     // Set token in HTTP-only cookie
     res.cookie('authToken', token, {
       httpOnly: true, 
       // secure: process.env.NODE_ENV === 'production', 
-      secure: false, 
-      // sameSite: 'none', 
-      // maxAge: 24 * 60 * 60 * 1000,
-      // path: '/',
+      secure: true, 
+      sameSite: 'none', 
+      maxAge: 24 * 60 * 60 * 1000,
+      path: '/',
     });
 
     // Respond with success message and user data (excluding sensitive info)
@@ -102,9 +102,11 @@ router.post("/login", async (req, res) => {
 
 router.post('/logout', (req, res) => {
   res.clearCookie('authToken', {
-    httpOnly: true,
+    // httpOnly: true,
+    // secure: process.env.NODE_ENV === 'production', 
+    //  secure: true,
+     maxAge: 0,
     // sameSite: 'none',
-    secure: false,
     // path: '/',
   });
   res.status(200).json({ message: 'Logout successful' });

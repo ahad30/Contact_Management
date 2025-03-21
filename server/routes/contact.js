@@ -34,15 +34,16 @@ router.get('/', async (req, res) => {
 });
 
 
+// 📌 Download PDF for all contacts
 router.get('/pdf', async (req, res) => {
   try {
-    const contacts = await Contact.find(); // Fetch all contacts
-    const pdfPath = await generatePDF(contacts); // Generate PDF for all contacts
+    const contacts = await Contact.find();
+    const pdfPath = await generatePDF(contacts);
 
-    // Send the file as a downloadable response
     res.download(pdfPath, 'contacts.pdf', (err) => {
-      if (err) console.error('Error sending PDF:', err);
-      // Delete the file after sending
+      if (err) {
+        console.error('Error sending PDF:', err);
+      }
       fs.unlink(pdfPath, (err) => {
         if (err) console.error('Error deleting PDF:', err);
       });
@@ -53,21 +54,18 @@ router.get('/pdf', async (req, res) => {
   }
 });
 
+// 📌 Download PDF for a specific contact
 router.get('/pdf/:id', async (req, res) => {
   try {
-    const contactId = req.params.id;
-    const contact = await Contact.findById(contactId); // Fetch the specific contact
-
+    const contact = await Contact.findById(req.params.id);
     if (!contact) {
       return res.status(404).json({ success: false, message: 'Contact not found' });
     }
 
-    const pdfPath = await generatePDF([contact]); // Generate PDF for the single contact
+    const pdfPath = await generatePDF([contact]);
 
-    // Send the file as a downloadable response
-    res.download(pdfPath, `contact_${contactId}.pdf`, (err) => {
+    res.download(pdfPath, `contact_${contact._id}.pdf`, (err) => {
       if (err) console.error('Error sending PDF:', err);
-      // Delete the file after sending
       fs.unlink(pdfPath, (err) => {
         if (err) console.error('Error deleting PDF:', err);
       });
@@ -78,15 +76,14 @@ router.get('/pdf/:id', async (req, res) => {
   }
 });
 
+// 📌 Download Excel for all contacts
 router.get('/excel', async (req, res) => {
   try {
     const contacts = await Contact.find();
     const excelPath = await generateExcel(contacts);
 
-    // Send the file as a downloadable response
     res.download(excelPath, 'contacts.xlsx', (err) => {
       if (err) console.error('Error sending Excel:', err);
-      // Delete the file after sending
       fs.unlink(excelPath, (err) => {
         if (err) console.error('Error deleting Excel:', err);
       });
@@ -97,21 +94,18 @@ router.get('/excel', async (req, res) => {
   }
 });
 
+// 📌 Download Excel for a specific contact
 router.get('/excel/:id', async (req, res) => {
   try {
-    const contactId = req.params.id;
-    const contact = await Contact.findById(contactId); // Fetch the specific contact
-
+    const contact = await Contact.findById(req.params.id);
     if (!contact) {
       return res.status(404).json({ success: false, message: 'Contact not found' });
     }
 
-    const excelPath = await generateExcel([contact]); // Generate Excel for the single contact
+    const excelPath = await generateExcel([contact]);
 
-    // Send the file as a downloadable response
-    res.download(excelPath, `contact_${contactId}.xlsx`, (err) => {
+    res.download(excelPath, `contact_${contact._id}.xlsx`, (err) => {
       if (err) console.error('Error sending Excel:', err);
-      // Delete the file after sending
       fs.unlink(excelPath, (err) => {
         if (err) console.error('Error deleting Excel:', err);
       });

@@ -38,7 +38,7 @@ const Navbar = ({ handleClick, toggle }) => {
   // User profile dropdown menu
   const profileMenu = (
     <Menu>
-      <Menu.Item key="logout">
+      <Menu.Item key="logout" onClick={handleLogout}>
         <button className='hidden lg:block' onClick={handleLogout}>
           Logout
         </button>
