@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export const middleware = (request) => {
-  const authToken = request.cookies.get("authToken");
+  const authToken = request.cookies.get("authToken")?.value;
   const url = request.nextUrl.clone();
 
   console.log("Middleware - Path:", url.pathname);

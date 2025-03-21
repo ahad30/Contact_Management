@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Space, Tooltip, Button } from "antd";
 import { AiOutlineDelete, AiFillEye } from "react-icons/ai";
 import { FaFilePdf, FaFileExcel } from "react-icons/fa";
@@ -15,17 +15,33 @@ import {
 } from "@/redux/Feature/Admin/contact/contactApi";
 import ViewModal from "@/components/Modal/ViewModal";
 import ViewContact from "./ViewContact";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const Contact = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { data, isLoading } = useGetContactsQuery();
   const { isViewModalOpen, isDeleteModalOpen } = useAppSelector((state) => state.modal);
   const [selectedContact, setSelectedContact] = useState(null);
 
   const [deleteContact, { isLoading: dIsLoading, isError, isSuccess, data: dData, error: dError }] =
     useDeleteContactMutation();
-  // const { data: pdfUrl } = useDownloadContactsPDFQuery();
-  // const { data: excelUrl } = useDownloadContactsExcelQuery();
+
+    // useEffect(() => {
+    //   const urlParams = new URLSearchParams(window.location.search);
+    //   const token = urlParams.get("token");
+    
+    //   if (token) {
+    //     console.log("Token received:", token);
+    //     Cookies.set("authToken", token, {
+    //       expires: 1, // Expires in 1 day
+    //       path: "/", // Ensure the cookie is sent for all paths
+    //     });
+    //     console.log("Cookie get:", Cookies.get("authToken"));
+    //     router.replace("/Dashboard/Contact"); 
+    //   }
+    // }, [router]);
 
   const contactData = data?.contacts?.map((contact, index) => ({
     key: index + 1,

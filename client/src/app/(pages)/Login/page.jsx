@@ -27,6 +27,11 @@ const Login = () => {
       if (response?.data?.user && response?.data?.token) {
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+         Cookies.set("authToken", response?.data?.token, {
+                  expires: 365,
+                  path: "/",
+                  secure: false,
+                });
         router.push("/Dashboard/Contact");
       }
     } catch (error) {

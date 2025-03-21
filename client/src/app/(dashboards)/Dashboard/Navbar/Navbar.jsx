@@ -26,7 +26,7 @@ const Navbar = ({ handleClick, toggle }) => {
   const handleLogout = async() => {
     await logout();
     localStorage.clear();
-    // Cookies.remove('authToken', { path: '/' });
+    Cookies.remove('authToken', { path: '/' });
   
     // Show a success message
     toast.success('Logout successful');

@@ -1,13 +1,15 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const os = require('os'); // ✅ Import os module
 const ExcelJS = require('exceljs');
 
 // 📌 Generate PDF
 const generatePDF = async (contacts) => {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument();
-    const tmpDir = './tmp'; // Use Vercel's temp directory
+    
+    const tmpDir = os.tmpdir(); // ✅ Use Vercel’s temporary directory
     const filePath = path.join(tmpDir, `contacts_${Date.now()}.pdf`);
 
     const stream = fs.createWriteStream(filePath);
@@ -43,7 +45,7 @@ const generateExcel = async (contacts) => {
     worksheet.addRow(contact);
   });
 
-  const tmpDir = './tmp'; 
+  const tmpDir = os.tmpdir(); // ✅ Use Vercel’s temporary directory
   const filePath = path.join(tmpDir, `contacts_${Date.now()}.xlsx`);
 
   await workbook.xlsx.writeFile(filePath);

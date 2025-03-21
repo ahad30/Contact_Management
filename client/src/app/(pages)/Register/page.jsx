@@ -13,7 +13,6 @@ const Register = () => {
   const handleSubmit = async (data) => {
     try {
       const response = await userRegister(data);
-      console.log(response);
       if (response?.data) {
         router.push("/Login");
       }

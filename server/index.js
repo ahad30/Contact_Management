@@ -110,11 +110,10 @@ app.get('/auth/google/callback',
       { expiresIn: '1d' }
     );
 
-    // Set token in HTTP-only cookie
+
     res.cookie('authToken', token, {
       httpOnly: true, 
-      // secure: process.env.NODE_ENV === 'production', 
-      secure: true, 
+      secure: process.env.NODE_ENV === 'development',
       sameSite: 'none', 
       maxAge: 24 * 60 * 60 * 1000,
       path: '/',
@@ -130,18 +129,18 @@ app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { session: false }),
   (req, res) => {
     const token = jwt.sign({ id: req.user._id, email: req.user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
-    // Set token in HTTP-only cookie
-    res.cookie('authToken', token, {
-      httpOnly: true, 
-      // secure: process.env.NODE_ENV === 'production', 
-      secure: true, 
-      sameSite: 'none', 
-      maxAge: 24 * 60 * 60 * 1000,
-      path: '/',
-    });
+  
+    // res.cookie('authToken', token, {
+    //   httpOnly: true, 
+    //   // secure: process.env.NODE_ENV === 'production', 
+    //   secure: true, 
+    //   sameSite: 'none', 
+    //   maxAge: 24 * 60 * 60 * 1000,
+    //   path: '/',
+    // });
 
 
-    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/Contact`);
+    res.redirect(`${process.env.FRONTEND_URL}/Dashboard/Contact?token=${token}`);
 
   });
 

@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
     }
   });
 
-// Login route
+
 // Login route
 router.post("/login", async (req, res) => {
   try {
@@ -70,22 +70,22 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    // Generate JWT token
+
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
-    console.log(token)
+
     // Set token in HTTP-only cookie
-    res.cookie('authToken', token, {
-      httpOnly: true, 
-      // secure: process.env.NODE_ENV === 'production', 
-      secure: true, 
-      sameSite: 'none', 
-      maxAge: 24 * 60 * 60 * 1000,
-      path: '/',
-    });
+    // res.cookie('authToken', token, {
+    //   httpOnly: true, 
+    //   // secure: process.env.NODE_ENV === 'production', 
+    //   secure: true, 
+    //   sameSite: 'none', 
+    //   maxAge: 24 * 60 * 60 * 1000,
+    //   path: '/',
+    // });
 
     // Respond with success message and user data (excluding sensitive info)
     res.status(200).json({
