@@ -7,11 +7,7 @@ This is a Full Stack Developer Intern assignment project. The application is a "
 
 ### Features
 
-#### Frontend
-- Contact Us page designed as per the provided Figma design.
 - User-friendly form for submitting contact details.
-
-#### Backend & Admin Dashboard
 - Secure login/logout system for the admin panel.
 - Authentication implemented without using Firebase or ready-made tools.
 - Signup options: Manual, Google (Gmail), and Facebook.
