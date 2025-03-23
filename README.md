@@ -5,8 +5,9 @@
 This is a Full Stack project. The application is a "Contact Us" User Authentication Management System with frontend, admin, and backend functionalities. It allows users to submit their contact details, which are stored in a MongoDB database. Admins can securely log in, view, and manage the submitted data.
 
 ### Routes
-- /Login
-- /Register
+Home- /
+Login- /Login
+Register- /Register
 
 
 ### Features
