@@ -49,6 +49,15 @@ const Home = () => {
   return (
     <>
       <Head>
+
+        {/* Page Title */}
+        <title>Contact Us - CyberCraft Bangladesh</title>
+
+        {/* Meta Description */}
+        <meta
+          name="description"
+          content="Get in touch with CyberCraft Bangladesh for creative solutions. Reach out to us for any inquiries or collaborations."
+        />
         {/* Schema Markup */}
         <script type="application/ld+json">
           {JSON.stringify({
