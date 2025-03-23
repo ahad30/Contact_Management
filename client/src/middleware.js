@@ -8,7 +8,7 @@ export const middleware = (request) => {
   console.log("Middleware - authToken:", authToken);
 
   // Exclude OAuth callback routes from middleware
-  if (url.pathname.startsWith("/auth/google/callback") || url.pathname.startsWith("/auth/facebook/callback")) {
+  if (url.pathname.startsWith("/auth/google") || url.pathname.startsWith("/auth/facebook")) {
     console.log("Middleware - Allowing OAuth callback");
     return NextResponse.next(); // Allow OAuth callbacks to proceed
   }
